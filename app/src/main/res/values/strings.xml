@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CurrencyConverter</string>
+    <string name="enter_currency_here">Enter Currency Here</string>
+    <string name="from_currency">From</string>
+    <string name="to_currency">To</string>
+    <string name="tv_results">Results</string>
+    <string name="convert_currency">Convert Currency</string>
+</resources>
