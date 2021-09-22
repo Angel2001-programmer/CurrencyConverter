@@ -5,7 +5,7 @@
         <layer-list>
             <item>
                 <shape>
-                    <stroke android:width="3dp" android:color="#000000"/>
+                    <stroke android:width="3dp" android:color="#000000" />
                     <corners android:radius="10dp" />
                     <padding android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="3dp" />
                 </shape>
@@ -13,7 +13,7 @@
 
             <item android:right="5dp">
 
-                <bitmap android:gravity="center_vertical|right" android:src="@drawable/outline_expand_more_black_24dp"/>
+                <bitmap android:gravity="center_vertical|right" android:src="@drawable/outline_expand_more_black_24dp" />
             </item>
         </layer-list>
     </item>

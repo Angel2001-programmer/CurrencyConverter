@@ -5,14 +5,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.angelwitchell.currencyconverter.databinding.ActivityMainBinding;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,12 +24,14 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     //variables
     private static final String TAG = "MainActivity";
-    private ActivityMainBinding binding;
     double USDGBP;
     double USDJPY;
     double USDCHF;
     double USDEUR;
     double USDHKD;
+    String symbol;
+    private ActivityMainBinding binding;
+    TextView results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         List<String> currencySymbols = new ArrayList<>();
+
         // items added to arrayList.
         currencySymbols.add("£");
         currencySymbols.add("¥");
-        currencySymbols.add("Fr");
+        currencySymbols.add("CHf");
         currencySymbols.add("€");
         currencySymbols.add("hk$");
 
@@ -80,102 +85,157 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String etValue = binding.etValue.getText().toString();
                 switch (position) {
                     case 0:
-                        if(!etValue.isEmpty()){
-
-                        } else {
-                            etValue = binding.etValue.getText().toString();
-                            Log.d(TAG, "Convert: " + USDGBP);
-
-                            double valueDouble = Double.parseDouble(etValue);
-                            Log.d(TAG, "Convert: " + valueDouble);
-                            double result = USDGBP * valueDouble;
-                            Log.d(TAG, "DollorToPound: " + result);
-                        }
-
-//                        if(binding.etValue != null){
-//                            binding.etValue.setText("0");
-//                        } else {
-//                            String etValue = binding.etValue.getText().toString();
-//                            Log.d(TAG, "Convert: " + USDGBP);
-//
-//                            double valueDouble = Double.parseDouble(etValue);
-//                            Log.d(TAG, "Convert: " + valueDouble);
-//                            double result = USDGBP * valueDouble;
-//                            Log.d(TAG, "DollorToPound: " + result);
-//                        }
+                        Log.d(TAG, "onItemSelected: British Pounds");
+                        symbol = "£";
                         break;
 
-
                     case 1:
-                        if(binding.etValue == null){
-                            binding.etValue.setText("0");
-                        } else {
-                            etValue = binding.etValue.getText().toString();
-                            Log.d(TAG, "Convert: " + USDJPY);
-
-                            double valueDouble = Double.parseDouble(etValue);
-                            Log.d(TAG, "Convert: " + valueDouble);
-                            double result = USDJPY * valueDouble;
-                            Log.d(TAG, "DollorToPound: " + result);
-                        }
+                        Log.d(TAG, "onItemSelected: Japanese Yen");
+                        symbol = "¥";
                         break;
 
                     case 2:
-                        if(binding.etValue == null){
-                            binding.etValue.setText("0");
-                        } else {
-                            etValue = binding.etValue.getText().toString();
-                            Log.d(TAG, "Convert: " + USDCHF);
-
-                            double valueDouble = Double.parseDouble(etValue);
-                            Log.d(TAG, "Convert: " + valueDouble);
-                            double result = USDCHF * valueDouble;
-                            Log.d(TAG, "DollorToPound: " + result);
-                        }
+                        Log.d(TAG, "onItemSelected: Swiss Franc");
+                        symbol = "CHf";
                         break;
 
                     case 3:
-                        if(binding.etValue == null){
-                            binding.etValue.setText("0");
-                        } else {
-                            etValue = binding.etValue.getText().toString();
-                            Log.d(TAG, "Convert: " + USDEUR);
-
-                            double valueDouble = Double.parseDouble(etValue);
-                            Log.d(TAG, "Convert: " + valueDouble);
-                            double result = USDEUR * valueDouble;
-                            Log.d(TAG, "DollorToPound: " + result);
-                        }
+                        Log.d(TAG, "onItemSelected: Europe Euros");
+                        symbol = "€";
                         break;
 
                     case 4:
-
+                        Log.d(TAG, "onItemSelected: Hong Kong Dollars");
+                        symbol = "hk$";
                         break;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                    // do nothing
+                // do nothing
             }
         });
     }
 
     public void Convert(View view) {
-            // Button function if it's pressed converts dollars to selected currency.
-        EditText etValue = binding.etValue.getText().toString();
+        // Button function if it's pressed converts dollars to selected currency.
+        String etValue = binding.etValue.getText().toString();
+
+        if (etValue.isEmpty()) {
+            binding.etValue.setError("Please enter a value into the TextField");
+        } else {
+            switch (symbol) {
+                case "£":
+                    DollarToPounds(etValue);
+                    break;
+                case "¥":
+                    DollarToYen(etValue);
+                    break;
+                case "CHf":
+                    DollarToCHf(etValue);
+                    break;
+                case "€":
+                    DollarToEuros(etValue);
+                    break;
+                case "hk$":
+                    DollarToHKD(etValue);
+                    break;
+            }
+        }
+    }
+
+    public void DollarToPounds(String etValue) {
+
+        if (binding.etValue != null) {
+            double valueDouble = Double.parseDouble(etValue);
+            Log.d(TAG, "Convert: " + valueDouble);
+            double result = USDGBP * valueDouble;
+            Log.d(TAG, "DollorToPound: " + result);
+
+            NumberFormat priceFormat = NumberFormat.getCurrencyInstance();
+            priceFormat.setCurrency(Currency.getInstance("USD"));
+            String priceString = priceFormat.format(result);
+
+            binding.tvResults.setText(String.valueOf(priceString));
+        }
+    }
+
+    public void DollarToYen(String etValue) {
+
+        if (binding.etValue != null) {
+            double valueDouble = Double.parseDouble(etValue);
+            Log.d(TAG, "Convert: " + valueDouble);
+            double result = USDJPY * valueDouble;
+            Log.d(TAG, "DollorToJPK: " + result);
+
+            NumberFormat priceFormat = NumberFormat.getCurrencyInstance();
+            priceFormat.setCurrency(Currency.getInstance("JPY"));
+            String priceString = priceFormat.format(result);
+
+            binding.tvResults.setText(String.valueOf(priceString));
+        }
+    }
+
+    public void DollarToCHf(String etValue) {
+
+        if (binding.etValue != null) {
+            double valueDouble = Double.parseDouble(etValue);
+            Log.d(TAG, "Convert: " + valueDouble);
+            double result = USDCHF * valueDouble;
+            Log.d(TAG, "DollorToCHf: " + result);
+            NumberFormat priceFormat = NumberFormat.getCurrencyInstance();
+            priceFormat.setCurrency(Currency.getInstance("SFr"));
+            String priceString = priceFormat.format(result);
+
+            binding.tvResults.setText(String.valueOf(priceString));
+        }
+    }
+
+    public void DollarToEuros(String etValue) {
+
+        if (binding.etValue != null) {
+            double valueDouble = Double.parseDouble(etValue);
+            Log.d(TAG, "Convert: " + valueDouble);
+            double result = USDEUR * valueDouble;
+            Log.d(TAG, "DollorToEURO: " + result);
+
+            NumberFormat priceFormat = NumberFormat.getCurrencyInstance();
+            priceFormat.setCurrency(Currency.getInstance("EUR"));
+            String priceString = priceFormat.format(result);
+
+            binding.tvResults.setText(String.valueOf(priceString));
+        }
+    }
+
+    public void DollarToHKD(String etValue) {
+
+        if (binding.etValue != null) {
+            double valueDouble = Double.parseDouble(etValue);
+            Log.d(TAG, "Convert: " + valueDouble);
+            double result = USDHKD * valueDouble;
+            Log.d(TAG, "DollorToHKD: " + result);
+
+            NumberFormat priceFormat = NumberFormat.getCurrencyInstance();
+            priceFormat.setCurrency(Currency.getInstance("HKD"));
+            String priceString = priceFormat.format(result);
+
+            binding.tvResults.setText(String.valueOf(priceString));
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("textview", binding.tvResults.getText().toString());
 
     }
 
-    public void DollarToPound(EditText etValue){
-        if(binding.etValue != null){
-                        double valueDouble = Double.parseDouble(etValue);
-                        Log.d(TAG, "Convert: " + valueDouble);
-                        double result = USDHKD * valueDouble;
-                        Log.d(TAG, "DollorToPound: " + result);
-        }
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        binding.tvResults.setText(savedInstanceState.getString("textview"));
     }
 }

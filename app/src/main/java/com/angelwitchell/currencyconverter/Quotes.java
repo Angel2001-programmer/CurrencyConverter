@@ -7,6 +7,14 @@ public class Quotes {
     private double USDCHF;
     private double USDJPY;
 
+    public Quotes(double USDGBP, double USDEUR, double USDHKD, double USDCHF, double USDJPY) {
+        this.USDGBP = USDGBP;
+        this.USDEUR = USDEUR;
+        this.USDHKD = USDHKD;
+        this.USDCHF = USDCHF;
+        this.USDJPY = USDJPY;
+    }
+
     public double getUSDGBP() {
         return USDGBP;
     }
@@ -25,13 +33,5 @@ public class Quotes {
 
     public double getUSDJPY() {
         return USDJPY;
-    }
-
-    public Quotes(double USDGBP, double USDEUR, double USDHKD, double USDCHF, double USDJPY) {
-        this.USDGBP = USDGBP;
-        this.USDEUR = USDEUR;
-        this.USDHKD = USDHKD;
-        this.USDCHF = USDCHF;
-        this.USDJPY = USDJPY;
     }
 }

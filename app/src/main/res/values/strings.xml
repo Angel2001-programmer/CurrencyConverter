@@ -5,4 +5,5 @@
     <string name="to_currency">To</string>
     <string name="tv_results">Results</string>
     <string name="convert_currency">Convert Currency</string>
+    <string name="Dollar">$</string>
 </resources>

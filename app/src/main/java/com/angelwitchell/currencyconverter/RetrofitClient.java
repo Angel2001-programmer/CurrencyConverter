@@ -7,8 +7,8 @@ public class RetrofitClient {
 
     private static Retrofit retrofit;
 
-    public static Retrofit getRetrofitInstance(){
-        if(retrofit == null){
+    public static Retrofit getRetrofitInstance() {
+        if (retrofit == null) {
             String BASE_URL = "http://apilayer.net";
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
