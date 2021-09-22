@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     double USDHKD;
     String symbol;
     private ActivityMainBinding binding;
-    TextView results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
